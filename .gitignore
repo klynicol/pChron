@@ -1,5 +1,12 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+config.ts
+settings.py
+pcserver/application/config/config.php
+pcserver/application/config/database.php
+pcserver/application/config/pChron.php
+.htaccess
+
 # compiled output
 /dist
 /tmp
@@ -41,3 +48,15 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#codeIgniter Stuff
+.DS_Store
+
+pcserver/application/cache/
+!pcserver/application/cache/index.html
+
+pcserver/application/logs/
+!pcserver/application/logs/index.html
+
+composer.lock
+pcserver/vendor/
