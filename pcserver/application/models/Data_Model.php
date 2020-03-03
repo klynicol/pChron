@@ -20,14 +20,14 @@ class Data_Model extends CI_Model{
     /**
      * Will take in a result array and load $this from it.
      */
-    protected function loadThis($resultArray){
+    public function loadThis($resultArray){
         foreach($resultArray as $key => $value){
             if(property_exists($this, $key))
                 $this[$key] = $value;
         }
     }
 
-    protected function saveThis(){
+    public function saveThis(){
         $data = [];
         foreach($this as $key => $value){
             if($key == 'table') continue;
@@ -39,7 +39,7 @@ class Data_Model extends CI_Model{
     /**
      * Overloader for private properties. Don't need this?
      */
-    protected function __set($name, $value){
+    public function __set($name, $value){
         $this[$name] = $value;
     }
 }

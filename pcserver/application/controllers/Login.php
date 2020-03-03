@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+include_once FCPATH . 'application/controllers/Base.php';
 
 /**
  * Controller to generate a solid auth token upon successfull login.
@@ -22,7 +23,9 @@ class Login extends Base{
         $formData = $this->post(null, true);
         //Validate. The frontend should validate but lets do it again for fun!
         $this->_validateRegisterCreds($formData);
-        $thi
+		$this->user_model->username = $formData['username'];
+		$this->user_model->hashPassword($formData['password']);
+		$this->user_model->saveThis();
     }
 
     public function facebookRegister_post(){
@@ -65,9 +68,10 @@ class Login extends Base{
             $this->notAcceptable("Username is not set.");
         if(!isset($data['password']))
             $this->notAcceptable("Password is not set.");
-        if(!_validUsername($data['username']))
-            $this->notAcceptable("Username is not a valid set of characters.");
-        if(!_validUsername($data['username']))
+        if(!$this->_validUsername($data['username']))
+            //$this->notAcceptable("Username is not a valid set of characters.");
+            $this->notAcceptable($data);
+        if(!$this->_validPassword($data['password']))
             $this->notAcceptable("Password is not a valid set of characters.");
     }
 

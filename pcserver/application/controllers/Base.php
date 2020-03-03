@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/third_party/RestController.php';
+require APPPATH . '/third_party/Format.php';
 use chriskacerguis\RestServer\RestController;
 use Lcobucci\JWT;
 
