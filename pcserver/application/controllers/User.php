@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * Interacts with the User_Model to privide user functionality.
+ * User based transactions.
  * 
  * @author Mark Wickline 2020-01-13
  */
@@ -12,6 +12,7 @@ class User extends Base{
         parent::__construct();
         $this->loadAuthToken();
         $this->_init();
+        $this->load->model('objects/user_object');
     }
 
     public function hello_get(){

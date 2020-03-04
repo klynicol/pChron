@@ -54,5 +54,8 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
-//Login
+//Register
 $route['register'] = 'Login/register'; //POST
+$route['google/register'] = 'Login/googleRegister'; //GET
+//Login
+$route['login'] = 'Login/login'; //POST
