@@ -59,3 +59,5 @@ $route['register'] = 'Login/register'; //POST
 $route['google/register'] = 'Login/googleRegister'; //GET
 //Login
 $route['login'] = 'Login/login'; //POST
+//Test
+$route['test'] = 'Login/test'; //GET

@@ -11,8 +11,11 @@ class User_Object extends Data_Model{
     public $id;
     public $username;
     public $first_name;
+    protected $first_name_bli;
 	public $last_name;
+    protected $last_name_bli;
 	public $email;
+    protected $email_bli;
 	public $create_date;
 	public $last_login_date;
     public $last_activity_date;
@@ -22,8 +25,15 @@ class User_Object extends Data_Model{
 
     public function __construct(){
         parent::__construct();
+        //Help describe $this to Data_Model
         $this->table = 'users';
         $this->ignoreFields = array_merge($this->ignoreFields, ['app_state']);
+        $encryptedFields = [
+            'first_name' => [ 'blind_index' => 'first_name_bli' ],
+            'last_name' => [ 'blind_index' => 'last_name_bli' ],
+            'email' => [ 'blind_index' => 'email_bli' ]
+        ];
+        $this->encryptedFields = array_merge($this->encryptedFields, $encryptedFields);
     }
 
     public function loadFromUsername($username){
@@ -50,6 +60,6 @@ class User_Object extends Data_Model{
      */
     public function stampActivity(){
         $this->last_activity_date = sqlTimeStamp();
-        $this->saveThis();
+        $this->saveThis(true);
     }
 }

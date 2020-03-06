@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 include_once APPPATH . 'controllers/Base.php';
+include_once APPPATH . 'libraries/Cipher_Sweet.php';
 
 /**
  * Controller to generate a solid auth token upon successfull login.
@@ -10,6 +11,21 @@ class Login extends Base{
         parent::__construct();
         parent::_init();
         $this->load->model('objects/user_object', 'user_object');
+    }
+
+    public function test_get(){
+        $this->user_object->loadFromUsername('rager');
+        $fields = [
+            'first_name' => "Mark",
+            'last_name' => "Wickline",
+            'email' => "mwicklinedev@gmail.com"
+        ];
+        $this->user_object->setProperties($fields);
+        $this->user_object->saveThis();
+        $this->response([
+            'status' => true,
+            'message' => "PII saved"
+        ], 200);
     }
 
     public function login_post(){

@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+include_once APPPATH . "/libraries/Cipher_Sweet.php";
 /**
  * Common database functionality. All models should extend this model.
  * 
@@ -6,8 +7,11 @@
  */
 abstract class Base_Model extends CI_Model{
 
+    protected $cipher;
+
     public function __construct(){
         parent::__construct();
+        $this->cipher = new Cipher_Sweet();
     }
 
     /**

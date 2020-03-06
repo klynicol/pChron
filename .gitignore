@@ -6,6 +6,7 @@ pcserver/application/config/config.php
 pcserver/application/config/database.php
 pcserver/application/config/pChron.php
 .htaccess
+*.key
 
 # compiled output
 /dist
