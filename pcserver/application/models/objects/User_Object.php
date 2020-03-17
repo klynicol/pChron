@@ -11,11 +11,8 @@ class User_Object extends Data_Model{
     public $id;
     public $username;
     public $first_name;
-    protected $first_name_bli;
 	public $last_name;
-    protected $last_name_bli;
 	public $email;
-    protected $email_bli;
 	public $create_date;
 	public $last_login_date;
     public $last_activity_date;
@@ -27,7 +24,10 @@ class User_Object extends Data_Model{
         parent::__construct();
         //Help describe $this to Data_Model
         $this->table = 'users';
-        $this->ignoreFields = array_merge($this->ignoreFields, ['app_state']);
+        $ignoreFields = [
+            'app_state'
+        ];
+        $this->ignoreFields = array_merge($this->ignoreFields, $ignoreFields);
         $encryptedFields = [
             'first_name' => [ 'blind_index' => 'first_name_bli' ],
             'last_name' => [ 'blind_index' => 'last_name_bli' ],

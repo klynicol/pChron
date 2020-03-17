@@ -14,17 +14,24 @@ class Login extends Base{
     }
 
     public function test_get(){
-        $this->user_object->loadFromUsername('rager');
-        $fields = [
-            'first_name' => "Mark",
-            'last_name' => "Wickline",
-            'email' => "mwicklinedev@gmail.com"
-        ];
-        $this->user_object->setProperties($fields);
-        $this->user_object->saveThis();
+        $cipher = new Cipher_Sweet();
+        $values = [];
+        for($x = 0; $x < 10000; $x ++){
+            $cipher->clear();
+            $cipher->setTable('users');
+            $cipher->addField(generateRandomString(6), 'test_column');
+            $values[] = $cipher->encryptFields()['test_column'];
+        }
+        $cipher->clear();
+        $cipher->setTable('users');
+        $decrypt = [];
+        foreach($values as $encrypted){
+            $decrypt[] = $cipher->decryptField($encrypted, 'test_column');
+        }
         $this->response([
             'status' => true,
-            'message' => "PII saved"
+            'message' => "testing cipher",
+            'data' => $decrypt
         ], 200);
     }
 
@@ -65,11 +72,13 @@ class Login extends Base{
         $config = $this->config->item('pcron')['google_oath'];
         $parms = [
             'client_id' => $config['client_id'],
-            'redirect_url' => $config['redirect_uri'],
+            'redirect_uri' => $config['redirect_uri'], //This is where the response is sent!!
             'response_type' => 'code',
-            'scope' => 'email profile openid'
+            'scope' => 'email profile openid',
+            'state' => 'testing_state_value',
+            'nonce' => '0394852-3190485-2490358'
         ];
-        $response = $this->guzzle->request('POST', 'https://accounts.google.com/o/oauth2/v2/auth', $parms);
+        $response = $this->guzzle->request('GET', 'https://accounts.google.com/o/oauth2/v2/auth', $parms);
         $this->response([
             'status' => true,
             'data' => $response->getBody()

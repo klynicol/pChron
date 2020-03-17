@@ -89,17 +89,11 @@ abstract class Data_Model extends Base_Model{
      * @param boolean $handleCrypto Should we decrypt this field?
      * @param boolean $handleJson Should we json_decode this field?
      */
-    private function _setProperty($key, $value, $handleCrypto = false, $handleJson = false){
+    private function _setProperty($key, $value, $handleJson = false){
         if(!property_exists($this, $key))
             return;
         if(in_array($key, $this->intFields)){
             $value = intval($value);
-        }
-        if($handleCrypto && array_key_exists($key, $this->encryptedFields)){
-            //TODO, find a better way to handle this.
-            $this->cipher->clear();
-            $this->cipher->setTable($this->table);
-            $value = $this->cipher->decryptField($value, $key);
         }
         if($handleJson && in_array($key, $this->jsonFields)){
             $value = json_decode($value, true);
@@ -147,10 +141,24 @@ abstract class Data_Model extends Base_Model{
      * @param arrayy $resultArray
      */
     public function loadThis($resultArray){
+        $cryptoFields = [];
         foreach($resultArray as $key => $value){
-            if(!isset($value))
+            if(!isset($value)){
                 continue;
-            $this->_setProperty($key, $value, true, true);
+            } elseif(array_key_exists($key, $this->encryptedFields)){
+                //If we're dealing with encrypted fields, set to deal with them later all at once.
+                $cryptoFields[$key] = $value;
+            } else {
+                $this->_setProperty($key, $value, true, true);   
+            }
+        }
+        if(!empty($cryptoFields)){
+            //Decrypt any encrypted fields found.
+            $this->cipher->clear();
+            $this->cipher->setTable($this->table);
+            foreach($this->cipher->decryptMulti($cryptoFields)[$this->table] as $decKey => $decVal){
+                $this->_setProperty($decKey, $decVal, true, true);
+            }
         }
     }
 

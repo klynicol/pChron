@@ -1,4 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+/**
+ * Pizza Chronicle Install Controller.
+ * 
+ * To run these modules use the follow command as example
+ * php index.php Install method_name
+ * 
+ * @author Mark Wickline 2020-03-16
+ */
 
 class Install extends CI_Controller{
 	public function __construct(){
