@@ -1,7 +1,5 @@
 # PChron
 
-### Soon to be the number one frozen pizza website in the world!
-
 ## Installation
 
 1. Install a local PHP and MySql capable application.
